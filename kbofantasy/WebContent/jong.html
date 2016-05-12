@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="EUC-KR">
+<title>Insert title here</title>
+<style type="text/css">
+#background{
+   border: 1px solid #381502;
+   border-collapse:collapse;
+   font-size: 20pt;
+   background-color:#ffffff;
+   width: 800px;
+   height: 600px;
+}
+img{
+   width: 150px;
+   height: 150px;
+   padding: 20px;
+
+}
+#coffee{
+   float: left;
+}
+#calculator{
+   border: 1px solid #381502;
+   border-collapse:collapse;
+   width: 210px;
+   height: 399px;
+   background-color:#673b04;
+   float: left;
+   font-size: 20px;
+   color: white;
+   font-family: "Arial Rounded MT Bold";
+   font-weight: bold;
+}
+#coin{
+   border: 1px solid #381502;
+   border-collapse:collapse;
+   width: 210px;
+   height: 199px;
+   float: left;
+}
+</style>
+<script type="text/javascript">
+total = 0;
+function  button_click(num){
+	   total += num;
+      alert(total);
+   }
+   
+</script>
+</head>
+<body>
+   <form name="vending">
+   <h1><i> Welcome to my VendingMachine </i></h1>
+   
+      <div id = "background"> 
+         <div id ="coffee">
+               <img  src="../images/dutchice.jpg" />
+               <img  src="../images/dutchamehot.jpg" />
+               <img  src="../images/dutchamerice.jpg" />
+               <br/>         
+               <img  src="../images/dutchbeer.jpg" />
+               <img  src="../images/ducthapocato.jpg" />
+               <img  src="../images/dutchlatte.jpg" />
+               <br/>               
+               <img  src="../images/dutchsoju.jpg" />
+               <img  src="../images/test3.jpg" />
+                  
+         </div>
+         <div id="calculator">
+            <p style="color: white; font-size:15pt; text-align:center; font-weight:bold">Information</p><hr/>
+            충전금액 <input type = "text" size="29" name = "chargeMoney" value=""> <br/>
+            구매금액 <input type = "text" size="29" maxlength="10" name = "price"> <br/>
+            남은금액 <input type = "text" size="29" maxlength="10" name = "currentMoney"> <br/>
+            <input type="button" width="100" value="결제" onclick="alert('박지혜 꺼져')">   
+         </div>
+         <div id="coin">
+            
+            <input type="button" value="100원" onclick="button_click(100)">   
+            <input type="button" value="500원" onclick="button_click(500)">   
+            <input type="button" value="1000원" onclick="button_click(1000)">   
+            <input type="button" value="5000원" onclick="button_click(5000)">   
+            <input type="button" value="10000원" onclick="button_click(10000)">   
+            
+         </div>
+         
+      
+      </div>
+      
+   </form>   
+      
+   
+</body>
+</html>
