@@ -1,6 +1,7 @@
 package record.logic;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,9 +14,8 @@ public class ParseLogicImpl implements ParseLogic{
 	@Override
 	public String eventData(String eventId) throws IOException {
 
-		String eventData = "";	// ÆÄ½ÌÇØ¿Ã ½ºÆ®¸µ ¼±ÅÃ
-		
-//		eventId = "20160510SSLG02016";	// °ÔÀÓID - ³ªÁß¿¡ getÀ¸·Î ¸®Äù½ºÆ® ¹Þ¾Æ¿Í¾ß ÇÔ
+		String eventData = "";
+
 		String defUrl = "http://sports.news.naver.com/gameCenter/gameRecord.nhn?gameId=" + eventId + "&category=kbo";	// ÆÄ½ÌÇÒ ÁÖ¼Ò
 		Document doc = Jsoup.connect(defUrl)
 						.timeout(5000)
@@ -41,5 +41,53 @@ public class ParseLogicImpl implements ParseLogic{
 		eventData = eventData.replace("‚‚r‚‚n", "");
 		System.out.println("logic : " + eventId + eventData);
 		return eventData;
+	}
+
+	@Override
+	public String eventListData(String year, String month) {
+		
+		String day = "";
+		String data = "{";
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Integer.parseInt(year), (Integer.parseInt(month) - 1), 1);
+		int lastDay = cal.getActualMaximum(Calendar.DATE);
+
+		for (int i = 1; i <= lastDay; i++) {
+		
+			if(i < 10) {
+				day = "0" + i;
+			} else {
+				day = "" + i;
+			}
+			String defUrl = "http://sportsdata.naver.com/ndata//kbo/" + year + "/" + month + "/" + year + month + day + ".nsd";	// ÆÄ½ÌÇÒ ÁÖ¼Ò
+			Document doc;
+			try {
+				doc = Jsoup.connect(defUrl)
+								.timeout(5000)
+								.userAgent("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.94 Safari/537.36")	// À¯Àú¿¡ÀÌÀüÆ® Á¤ÀÇ
+								.get();
+			} catch (IOException e) {
+				doc = null;
+			}
+			String str = "";
+			
+			if(doc!=null) {
+				Element elmt = doc.select("script").first();
+				str = elmt.html();
+				str = str.replace("document.domain=‚"naver.com‚";parent.sportscallback_gameList(document, ", "");
+				str = str.replace(");", "");
+				
+			} else {
+				str = "‚"none‚"";
+			}
+
+			str = "‚"" + year + month + day + "‚":" + str + ",";
+			data += str;
+		}
+		data = data.substring(0, data.length() - 1);
+	    data += "}";
+
+	    return data;
 	}
 }

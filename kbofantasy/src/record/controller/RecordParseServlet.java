@@ -10,30 +10,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import record.dto.ParseDTO;
-import record.service.ParseService;
-import record.service.ParseServiceImpl;
-
+import record.dto.RecordDTO;
+import record.service.RecordService;
+import record.service.RecordServiceImpl;
+// 세부경기결과페이지 서블릿
 @WebServlet(name = "record", urlPatterns = { "/record.do" })
 public class RecordParseServlet extends HttpServlet{
-	public void doGet(HttpServletRequest req, HttpServletResponse res)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		req.setCharacterEncoding("EUC-KR");
+		request.setCharacterEncoding("EUC-KR");
 		
 //		String eventId = req.getParameter("eventId");
-		String eventId = "20160510SSLG02016";
+		String eventId = "20160402OBSS02016";
 //		String pathurl = req.getParameter("pathurl");
 		String forwardview = "";
-		ParseService service = new ParseServiceImpl();
+		RecordService service = new RecordServiceImpl();
 		
 		forwardview = "record.jsp";
 		String eventData = service.eventData(eventId);
 		System.out.println("servlet : " + eventId + eventData);
 
 //		req.setAttribute("pathurl", pathurl);
-		req.setAttribute("eventData",eventData);
+		request.setAttribute("eventData", eventData);
 
-		RequestDispatcher rd = req.getRequestDispatcher(forwardview);
-		rd.forward(req, res);
+		RequestDispatcher rd = request.getRequestDispatcher(forwardview);
+		rd.forward(request, response);
 	}
 }
